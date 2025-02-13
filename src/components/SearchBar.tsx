@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-multi-date-picker";
+import PersianDate from "react-date-object";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 interface SearchBarProps {
   query: string;
@@ -15,15 +17,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSearchParams,
 }) => {
   const [searchQuery, setSearchQuery] = useState(query);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    date ? new Date(date) : null
+  const [selectedDate, setSelectedDate] = useState<PersianDate | null>(
+    date ? new PersianDate(date) : null
   );
 
   const debouncedSearch = useDebouncedCallback(
-    (query: string, date: Date | null) => {
+    (query: string, date: PersianDate | null) => {
       const params = new URLSearchParams();
       if (query) params.set("query", query);
-      if (date) params.set("date", date.toISOString());
+      if (date) {
+        const gregorianDate = date.convert(persian).toDate();
+        params.set("date", gregorianDate.toISOString());
+      }
       setSearchParams(params);
     },
     500
@@ -34,23 +39,42 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }, [searchQuery, selectedDate, debouncedSearch]);
 
   return (
-    <div className="flex flex-col w-1/5 gap-4 p-5 font-bold">
-      <div className="text-center rounded-full py-1 bg-cyan-600 text-white">فیلتر</div>
-      <input
-        type="text"
-        className="border-2 p-2 rounded-full border-cyan-400 placeholder-cyan-400 focus:border-cyan-400
+    <div className="flex flex-col gap-4 p-5">
+      <div className="border-r-4 font-bold border-cyan-500 px-2  w-1/6">
+        
+        فیلتر اطلاعات
+      </div>
+      <div className="flex gap-5">
+        <input
+          type="text"
+          className="border-2 p-2 w-fit rounded-full border-cyan-400 focus:border-cyan-400
          focus:ring-2 focus:ring-cyan-200 outline-none transition-all duration-200"
-        placeholder="کلمه مورد نظر را وارد کنید"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <DatePicker
-        placeholderText="تاریخ انتشار را وارد کنید"
-        selected={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        className="border-2 p-2 w-full rounded-full border-cyan-400 placeholder-cyan-400 focus:border-cyan-400
-         focus:ring-2 focus:ring-cyan-200 outline-none transition-all duration-200"
-      />
+          placeholder="کلمه مورد نظر ..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+
+        <div style={{ direction: "rtl" }}>
+          <DatePicker
+            style={{
+              backgroundColor: "white",
+              borderWidth: "2px",
+              borderColor: "#22d3ee",
+              height: "45px",
+              borderRadius: "9999px",
+              fontSize: "14px",
+              padding: "20px 15px",
+              width: "100%",
+            }}
+            placeholder="تاریخ انتشار ..."
+            value={selectedDate}
+            onChange={(date: PersianDate) => setSelectedDate(date)}
+            calendar={persian}
+            locale={persian_fa}
+            calendarPosition="bottom-right"
+          />
+        </div>
+      </div>
     </div>
   );
 };
