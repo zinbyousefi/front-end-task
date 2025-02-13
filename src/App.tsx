@@ -8,7 +8,7 @@ const App: React.FC = () => {
   const date = searchParams.get("date") || "";
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 ">
       <SearchBar query={query} date={date} setSearchParams={setSearchParams} />
     </div>
   );
