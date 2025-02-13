@@ -19,7 +19,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
     date ? new Date(date) : null
   );
 
-
   const debouncedSearch = useDebouncedCallback(
     (query: string, date: Date | null) => {
       const params = new URLSearchParams();
@@ -30,24 +29,27 @@ const SearchBar: React.FC<SearchBarProps> = ({
     500
   );
 
-  
   useEffect(() => {
     debouncedSearch(searchQuery, selectedDate);
   }, [searchQuery, selectedDate, debouncedSearch]);
 
   return (
-    <div className="flex gap-4 mb-4">
+    <div className="flex flex-col w-1/5 gap-4 p-5 font-bold">
+      <div className="text-center rounded-full py-1 bg-cyan-600 text-white">فیلتر</div>
       <input
         type="text"
-        className="border p-2"
-        placeholder="Search..."
+        className="border-2 p-2 rounded-full border-cyan-400 placeholder-cyan-400 focus:border-cyan-400
+         focus:ring-2 focus:ring-cyan-200 outline-none transition-all duration-200"
+        placeholder="کلمه مورد نظر را وارد کنید"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <DatePicker
+        placeholderText="تاریخ انتشار را وارد کنید"
         selected={selectedDate}
         onChange={(date) => setSelectedDate(date)}
-        className="border p-2"
+        className="border-2 p-2 w-full rounded-full border-cyan-400 placeholder-cyan-400 focus:border-cyan-400
+         focus:ring-2 focus:ring-cyan-200 outline-none transition-all duration-200"
       />
     </div>
   );
