@@ -1,8 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+@font-face {
+  font-family: IRANYekanXFaNum;
+  font-style: normal;
+  font-weight: bold;
+  src: url("./assets/fonts/IRANYekanXFaNum-Bold.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: IRANYekanXFaNum;
+  font-style: normal;
+  font-weight: normal;
+  src: url("./assets/fonts/IRANYekanXFaNum-Regular.woff2") format("woff2");
+}
+
+* {
+  font-family: "IRANYekanXFaNum";
+}
+
+body{
+    background-color: rgb(25, 41, 62);
+}
 
