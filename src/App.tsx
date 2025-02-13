@@ -1,6 +1,7 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchBar from "./components/SearchBar";
+import DataList from "./components/DataList";
 
 const App: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -8,8 +9,9 @@ const App: React.FC = () => {
   const date = searchParams.get("date") || "";
 
   return (
-    <div className="container mx-auto p-4 ">
+    <div className="container flex lg:flex-row flex-col gap-5 text-center mx-auto p-4">
       <SearchBar query={query} date={date} setSearchParams={setSearchParams} />
+      <DataList query={query} date={date} />
     </div>
   );
 };
