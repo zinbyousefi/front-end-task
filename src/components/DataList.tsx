@@ -33,7 +33,7 @@ const DataList: React.FC<{ query: string; date: string }> = ({
   if (error instanceof Error) return <p>Error: {error.message}</p>;
   if (filteredData.length === 0)
     return (
-      <p className="text-center text-lg text-white w-full justify-center flex items-center">
+      <p className="text-center text-lg text-primary w-full justify-center flex items-center">
         خبری یافت نشد
       </p>
     );

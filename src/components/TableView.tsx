@@ -1,43 +1,31 @@
 import { DataItem } from "../types/data-item";
 
 const TableView: React.FC<{ data: DataItem[] }> = ({ data }) => (
-  <div className="overflow-y-auto max-h-[630px]">
-    <table className="w-full border-collapse border border-cyan-200">
+  <div className="overflow-y-auto max-h-[630px] overflow-hidden rounded-lg shadow-lg">
+    <table className="w-full border-collapse border border-cyan-200  rounded-r-lg">
       <thead className="">
         <tr className="bg-cyan-700 text-white">
-          <th className="border p-2 border-cyan-700 sticky top-0 bg-cyan-700">
-            عنوان
-          </th>
-          <th className="border p-2 border-cyan-700 sticky top-0 bg-cyan-700">
-            Lead
-          </th>
-          <th className="border p-2 border-cyan-700 sticky top-0 bg-cyan-700">
-            محتوا
-          </th>
-          <th className="border p-2 border-cyan-700 sticky whitespace-nowrap top-0 bg-cyan-700">
+          <th className="border p-2  sticky top-0 bg-primary">عنوان</th>
+          <th className="border p-2  sticky top-0 bg-primary">Lead</th>
+          <th className="border p-2  sticky top-0  bg-primary">محتوا</th>
+          <th className="border p-2  sticky whitespace-nowrap top-0 bg-primary">
             تاریخ انتشار
           </th>
-          <th className="border p-2 border-cyan-700 sticky top-0 bg-cyan-700">
-            خبرگزاری
-          </th>
-          <th className="border p-2 border-cyan-700 sticky top-0 bg-cyan-700">
-            دسته‌بندی‌
-          </th>
-          <th className="border p-2 border-cyan-700 sticky top-0 bg-cyan-700">
-            برچسب‌ها
-          </th>
+          <th className="border p-2  sticky top-0 bg-primary">خبرگزاری</th>
+          <th className="border p-2  sticky top-0 bg-primary">دسته‌بندی‌</th>
+          <th className="border p-2  sticky top-0 bg-primary">برچسب‌ها</th>
         </tr>
       </thead>
-      <tbody className="bg-cyan-100">
+      <tbody className="bg-gray-100">
         {data.map((item) => (
-          <tr key={item.id} className="hover:bg-cyan-50">
+          <tr key={item.id} className="hover:bg-white">
             {/* عنوان */}
             <td className="border p-2">
               <a
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cyan-900 hover:underline"
+                className="text-primary hover:underline"
               >
                 {item.title}
               </a>
@@ -54,7 +42,7 @@ const TableView: React.FC<{ data: DataItem[] }> = ({ data }) => (
 
             {/* تاریخ انتشار */}
             <td className="border p-2">
-              <div className="bg-cyan-800 text-cyan-100 rounded-full p-1">
+              <div className="bg-gradient-to-tr from-primary to-secondary text-white rounded-full p-1">
                 {item.published_at
                   ? new Date(item.published_at).toLocaleDateString("fa-IR")
                   : "-"}
@@ -80,7 +68,7 @@ const TableView: React.FC<{ data: DataItem[] }> = ({ data }) => (
                   {item.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="bg-cyan-800 text-cyan-200 text-xs px-2 py-1 rounded-full"
+                      className="bg-primary text-white text-xs px-2 py-1 rounded-full"
                     >
                       {tag}
                     </span>
