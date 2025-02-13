@@ -46,36 +46,39 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }, [searchQuery, selectedDate, debouncedSearch]);
 
   return (
-    <div className="flex flex-col gap-4 py-5 bg-cyan-100 h-fit rounded-lg p-5">
-      <div className="border-r-4 font-bold whitespace-nowrap border-cyan-500 px-2 w-1/6">
+    <div className="flex flex-col gap-4 py-5 bg-gray-100 h-fit rounded-lg p-5">
+      <div
+        className="border-r-4 font-bold text-lg whitespace-nowrap text-start px-2
+      border-secondary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+      >
         فیلتر اطلاعات
       </div>
+
       <div className="flex flex-col gap-5">
-        <label className="flex flex-col gap-2 text-cyan-900">
+        <label className="flex flex-col gap-2 text-primary">
           جستجو
           <input
             type="text"
-            className="border-2 p-2 text-white rounded-full border-cyan-400 bg-cyan-700 focus:border-cyan-400
-         focus:ring-2 focus:ring-cyan-200 outline-none transition-all duration-200"
+            className="border-2 p-2 text-black rounded-full border-primary"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </label>
 
         <div style={{ direction: "rtl" }}>
-          <label className="flex flex-col gap-2 text-cyan-900">
+          <label className="flex flex-col gap-2 text-primary">
             تاریخ
             <DatePicker
               style={{
-                backgroundColor: "#0e7490",
+                backgroundColor: "white",
                 borderWidth: "2px",
-                borderColor: "#22d3ee",
+                borderColor: "#0ab2b3",
                 height: "40px",
                 borderRadius: "9999px",
                 fontSize: "14px",
                 padding: "20px 15px",
                 width: "100%",
-                color: "white",
+                color: "black",
               }}
               value={selectedDate}
               onChange={(date) => {
