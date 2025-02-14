@@ -1,8 +1,7 @@
-// src/components/CardView.tsx
-import React from "react";
+import React, { memo } from "react";
 import { DataItem } from "../types/data-item";
 
-const CardView: React.FC<{ data: DataItem[] }> = ({ data }) => (
+const CardView: React.FC<{ data: DataItem[] }> = memo(({ data }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     {data.map((item) => (
       <div key={item.id} className=" bg-gray-100 p-4 px-9 rounded-lg shadow-md">
@@ -23,14 +22,26 @@ const CardView: React.FC<{ data: DataItem[] }> = ({ data }) => (
         )}
 
         {/* لید خبر */}
-        {item.lead && <p className="mb-2 text-sm">{item.lead}</p>}
+        {item.lead && (
+          <div className="mb-2 text-sm">
+            <span className="text-gray-500">خلاصه:</span>
+
+            <div
+              className="text-gray-500"
+              dangerouslySetInnerHTML={{ __html: item.lead }}
+            />
+          </div>
+        )}
 
         {/* content */}
-
         {item.content && (
           <div className="line-clamp-2 text-sm mb-2">
             <span className="flex flex-col gap-4 text-gray-500">محتوا:</span>
-            {item.content}
+
+            <div
+              className="text-gray-500"
+              dangerouslySetInnerHTML={{ __html: item.content }}
+            />
           </div>
         )}
 
@@ -73,6 +84,6 @@ const CardView: React.FC<{ data: DataItem[] }> = ({ data }) => (
       </div>
     ))}
   </div>
-);
+));
 
 export default CardView;

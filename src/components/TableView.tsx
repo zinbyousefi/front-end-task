@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { DataItem } from "../types/data-item";
 
-const TableView: React.FC<{ data: DataItem[] }> = ({ data }) => (
+const TableView: React.FC<{ data: DataItem[] }> = memo(({ data }) => (
   <div className="overflow-y-auto max-h-[630px] overflow-hidden rounded-lg shadow-lg">
     <table className="w-full border-collapse border border-cyan-200  rounded-r-lg">
       <thead className="">
@@ -83,6 +84,6 @@ const TableView: React.FC<{ data: DataItem[] }> = ({ data }) => (
       </tbody>
     </table>
   </div>
-);
+));
 
 export default TableView;
