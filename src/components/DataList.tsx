@@ -3,6 +3,7 @@ import CardView from "./CardView";
 import TableView from "./TableView";
 import { DataItem } from "../types/data-item";
 import { useMemo } from "react";
+import { useDebounce } from "use-debounce";
 
 const fetchData = async (query: string, date: string) => {
   const res = await fetch("/sample-data.json");
@@ -10,9 +11,7 @@ const fetchData = async (query: string, date: string) => {
 
   return data.filter((item) => {
     const isQueryMatch = item.title.toLowerCase().includes(query.toLowerCase());
-
     const isDateMatch = !date || item.published_at.startsWith(date);
-
     return isQueryMatch && isDateMatch;
   });
 };
@@ -21,9 +20,13 @@ const DataList: React.FC<{ query: string; date: string }> = ({
   query,
   date,
 }) => {
+
+  const [debouncedQuery] = useDebounce(query, 500);
+  const [debouncedDate] = useDebounce(date, 500);
+
   const { data, error, isLoading } = useQuery({
-    queryKey: ["data", query, date],
-    queryFn: () => fetchData(query, date),
+    queryKey: ["data", debouncedQuery, debouncedDate],
+    queryFn: () => fetchData(debouncedQuery, debouncedDate),
     placeholderData: (prevData) => prevData ?? [],
   });
 
