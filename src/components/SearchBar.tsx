@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import DatePicker from "react-multi-date-picker";
@@ -10,14 +10,13 @@ interface SearchBarProps {
   setSearchParams: (params: URLSearchParams) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
+const SearchBar: React.FC<SearchBarProps> = memo(({ setSearchParams }) => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState<string>(
     searchParams.get("query") || ""
   );
   const [selectedDate, setSelectedDate] = useState<PersianDate | null>(null);
 
-  // Read the initial date from the URL
   useEffect(() => {
     const dateParam = searchParams.get("date");
     if (dateParam) {
@@ -43,6 +42,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
     debouncedSearch(searchQuery, selectedDate);
   }, [searchQuery, selectedDate, debouncedSearch]);
 
+  const datePickerStyle = useMemo(
+    () => ({
+      backgroundColor: "white",
+      borderWidth: "2px",
+      borderColor: "#0ab2b3",
+      height: "40px",
+      borderRadius: "9999px",
+      fontSize: "14px",
+      padding: "20px 15px",
+      width: "100%",
+      color: "black",
+    }),
+    []
+  );
+
   return (
     <div className="flex flex-col gap-4 py-5 bg-gray-100 h-fit rounded-lg p-5">
       <div
@@ -66,17 +80,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
         <label className="flex flex-col gap-2 text-primary">
           تاریخ
           <DatePicker
-            style={{
-              backgroundColor: "white",
-              borderWidth: "2px",
-              borderColor: "#0ab2b3",
-              height: "40px",
-              borderRadius: "9999px",
-              fontSize: "14px",
-              padding: "20px 15px",
-              width: "100%",
-              color: "black",
-            }}
+            style={datePickerStyle}
             value={selectedDate}
             onChange={(date) => {
               setSelectedDate(date);
@@ -89,6 +93,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
       </div>
     </div>
   );
-};
+});
 
 export default SearchBar;

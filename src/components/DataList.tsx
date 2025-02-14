@@ -1,8 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useMemo, Suspense, lazy } from "react";
 import { useQuery } from "@tanstack/react-query";
-import CardView from "./CardView";
-import TableView from "./TableView";
 import { DataItem } from "../types/data-item";
+
+const CardView = lazy(() => import("./CardView"));
+const TableView = lazy(() => import("./TableView"));
 
 const fetchData = async (query: string, date: string) => {
   const res = await fetch("/sample-data.json");
@@ -40,12 +41,16 @@ const DataList: React.FC<{ query: string; date: string }> = ({
     <div>
       {/* mobile  */}
       <div className="block lg:hidden">
-        <CardView data={filteredData} />
+        <Suspense fallback={<p>Loading ...</p>}>
+          <CardView data={filteredData} />
+        </Suspense>
       </div>
 
       {/* desktop  */}
       <div className="hidden lg:block">
-        <TableView data={filteredData} />
+        <Suspense fallback={<p>Loading ...</p>}>
+          <TableView data={filteredData} />
+        </Suspense>
       </div>
     </div>
   );
