@@ -32,13 +32,17 @@ const TableView: React.FC<{ data: DataItem[] }> = memo(({ data }) => (
               </a>
             </td>
 
-            {/* Lead */}
+            {/* خلاصه */}
             <td className="border p-2 text-sm">
-              {item.lead ? item.lead : "-"}
+              <div dangerouslySetInnerHTML={{ __html: item.lead || "-" }} />
             </td>
-            {/* content  */}
+
+            {/* محتوا  */}
             <td className="border p-2 w-1/5">
-              <div className="line-clamp-2 text-sm">{item.content || "-"}</div>
+              <div
+                className="line-clamp-2 text-sm"
+                dangerouslySetInnerHTML={{ __html: item.content || "-" }}
+              />
             </td>
 
             {/* تاریخ انتشار */}
