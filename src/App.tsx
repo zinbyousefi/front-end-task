@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const date = searchParams.get("date") || "";
 
   return (
-    <div className="container flex lg:flex-row flex-col gap-5 text-center p-4">
+    <div className="flex lg:flex-row flex-col gap-5 text-center p-4">
       <SearchBar setSearchParams={setSearchParams} />
       <DataList query={query} date={date} />
     </div>

@@ -7,7 +7,7 @@ const TableView: React.FC<{ data: DataItem[] }> = memo(({ data }) => (
       <thead className="">
         <tr className="bg-cyan-700 text-white">
           <th className="border p-2  sticky top-0 bg-primary">عنوان</th>
-          <th className="border p-2  sticky top-0 bg-primary">Lead</th>
+          <th className="border p-2  sticky top-0 bg-primary">خلاصه</th>
           <th className="border p-2  sticky top-0  bg-primary">محتوا</th>
           <th className="border p-2  sticky whitespace-nowrap top-0 bg-primary">
             تاریخ انتشار
