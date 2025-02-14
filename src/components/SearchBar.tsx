@@ -1,20 +1,23 @@
 import React, { useState, useEffect, memo, useMemo } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom"; // useNavigate اضافه شد
+import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import DatePicker from "react-multi-date-picker";
 import PersianDate from "react-date-object";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 
-const SearchBar: React.FC = memo(() => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+interface SearchBarProps {
+  setSearchParams: (params: URLSearchParams) => void;
+}
 
+const SearchBar: React.FC<SearchBarProps> = memo(({ setSearchParams }) => {
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState<string>(
     searchParams.get("query") || ""
   );
   const [selectedDate, setSelectedDate] = useState<PersianDate | null>(null);
 
+  // Listen to changes in the URL and update the local state
   useEffect(() => {
     const queryParam = searchParams.get("query") || "";
     const dateParam = searchParams.get("date");
@@ -37,14 +40,7 @@ const SearchBar: React.FC = memo(() => {
         const gregorianDate = date.toDate();
         params.set("date", gregorianDate.toISOString().split("T")[0]);
       }
-
-      navigate(
-        {
-          pathname: window.location.pathname,
-          search: params.toString(),
-        },
-        { replace: true }
-      );
+      setSearchParams(params);
     },
     500
   );
