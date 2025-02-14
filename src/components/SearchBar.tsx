@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import DatePicker from "react-multi-date-picker";
 import PersianDate from "react-date-object";
@@ -6,55 +6,34 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 
 interface SearchBarProps {
-  query: string;
-  date: string;
   setSearchParams: (params: URLSearchParams) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
-  query,
-  date,
-  setSearchParams,
-}) => {
-  const [searchQuery, setSearchQuery] = useState(query);
+const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedDate, setSelectedDate] = useState<PersianDate | null>(null);
 
-  useEffect(() => {
-    if (date) {
-      const gregorianDate = new Date(date);
-      const persianDate = new PersianDate(gregorianDate);
-      setSelectedDate(persianDate);
-    }
-  }, [date]);
+  const debouncedSearch = useDebouncedCallback(() => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set("query", searchQuery);
+    if (selectedDate)
+      params.set("date", selectedDate.toDate().toISOString().split("T")[0]);
 
-  const debouncedSearch = useDebouncedCallback(
-    (query: string, date: PersianDate | null) => {
-      const params = new URLSearchParams();
-      if (query) params.set("query", query);
+    setSearchParams(params);
 
-      if (date) {
-        const gregorianDate = date.toDate();
-        params.set("date", gregorianDate.toISOString().split("T")[0]);
-      }
-      setSearchParams(params);
-    },
-    500
-  );
-
-  useEffect(() => {
-    debouncedSearch(searchQuery, selectedDate);
-  }, [searchQuery, selectedDate, debouncedSearch]);
+    // پاک کردن مقدار اینپوت‌ها بعد از اعمال جستجو
+    setSearchQuery("");
+    setSelectedDate(null);
+  }, 700);
 
   return (
     <div className="flex flex-col gap-4 py-5 bg-gray-100 h-fit rounded-lg p-5">
-      <div
-        className="border-r-4 font-bold text-lg whitespace-nowrap text-start px-2
-      border-secondary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-      >
+      <div className="border-r-4 font-bold text-lg whitespace-nowrap text-start px-2 border-secondary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
         فیلتر اطلاعات
       </div>
 
       <div className="flex flex-col gap-5">
+        {/* 🔹 اینپوت جستجو */}
         <label className="flex flex-col gap-2 text-primary">
           جستجو
           <input
@@ -62,9 +41,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
             className="border-2 p-2 text-black rounded-full border-primary"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyUp={debouncedSearch}
           />
         </label>
 
+        {/* 🔹 انتخاب تاریخ */}
         <div style={{ direction: "rtl" }}>
           <label className="flex flex-col gap-2 text-primary">
             تاریخ
@@ -83,6 +64,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
               value={selectedDate}
               onChange={(date) => {
                 setSelectedDate(date);
+                debouncedSearch();
               }}
               calendar={persian}
               locale={persian_fa}
