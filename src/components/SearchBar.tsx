@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import DatePicker from "react-multi-date-picker";
 import PersianDate from "react-date-object";
@@ -10,8 +11,20 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchParams] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState<string>(
+    searchParams.get("query") || ""
+  );
   const [selectedDate, setSelectedDate] = useState<PersianDate | null>(null);
+
+  // Read the initial date from the URL
+  useEffect(() => {
+    const dateParam = searchParams.get("date");
+    if (dateParam) {
+      const date = new Date(dateParam);
+      setSelectedDate(new PersianDate({ date, calendar: persian }));
+    }
+  }, [searchParams]);
 
   const debouncedSearch = useDebouncedCallback(
     (query: string, date: PersianDate | null) => {
