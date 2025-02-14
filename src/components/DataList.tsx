@@ -38,7 +38,7 @@ const DataList: React.FC<{ query: string; date: string }> = ({
     );
 
   return (
-    <div>
+    <div className="w-full">
       {/* mobile  */}
       <div className="block lg:hidden">
         <Suspense fallback={<p>Loading ...</p>}>
