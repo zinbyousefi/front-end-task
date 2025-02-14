@@ -45,7 +45,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
 
   return (
     <div className="flex flex-col gap-4 py-5 bg-gray-100 h-fit rounded-lg p-5">
-      <div className="border-r-4 font-bold text-lg whitespace-nowrap text-start px-2 border-secondary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+      <div
+        className="border-r-4 font-bold text-lg whitespace-nowrap text-start
+       px-2 border-secondary bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+      >
         فیلتر اطلاعات
       </div>
 
@@ -54,7 +57,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setSearchParams }) => {
           جستجو
           <input
             type="text"
-            className="border-2 p-2 text-black rounded-full border-primary"
+            className="border-2 p-2 px-5 text-black rounded-full border-primary focus:border-secondary focus:outline-none "
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />

@@ -5,18 +5,15 @@ import { DataItem } from "../types/data-item";
 const CardView: React.FC<{ data: DataItem[] }> = ({ data }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     {data.map((item) => (
-      <div
-        key={item.id}
-        className="border bg-cyan-100 p-4 rounded-lg shadow-sm"
-      >
+      <div key={item.id} className=" bg-gray-100 p-4 px-9 rounded-lg shadow-md">
         {/* عنوان خبر */}
         {item.title && item.url ? (
-          <h3 className="font-bold">
+          <h3 className="font-bold mb-2">
             <a
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
+              className="text-primary hover:underline"
             >
               {item.title}
             </a>
@@ -26,12 +23,12 @@ const CardView: React.FC<{ data: DataItem[] }> = ({ data }) => (
         )}
 
         {/* لید خبر */}
-        {item.lead && <p className="mb-2">{item.lead}</p>}
+        {item.lead && <p className="mb-2 text-sm">{item.lead}</p>}
 
         {/* content */}
 
         {item.content && (
-          <div className="line-clamp-2">
+          <div className="line-clamp-2 text-sm mb-2">
             <span className="flex flex-col gap-4 text-gray-500">محتوا:</span>
             {item.content}
           </div>
@@ -39,9 +36,11 @@ const CardView: React.FC<{ data: DataItem[] }> = ({ data }) => (
 
         {/* تاریخ انتشار */}
         {item.published_at && (
-          <small className="flex justify-end">
-            {new Date(item.published_at).toLocaleDateString()}
-          </small>
+          <div className="w-full flex justify-end">
+            <small className="bg-gradient-to-tr from-primary to-secondary text-white px-2 py-1 rounded-full w-fit">
+              {new Date(item.published_at).toLocaleDateString("fa-IR")}
+            </small>
+          </div>
         )}
 
         {/* نام خبرگزاری */}
@@ -64,7 +63,7 @@ const CardView: React.FC<{ data: DataItem[] }> = ({ data }) => (
             {item.tags.map((tag, index) => (
               <span
                 key={index}
-                className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full"
+                className="bg-primary text-white text-xs px-2 py-1 rounded-full"
               >
                 {tag}
               </span>
