@@ -5,7 +5,7 @@ const CardView: React.FC<{ data: DataItem[] }> = memo(({ data }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
     {data.map((item) => (
       <div key={item.id} className=" bg-gray-100 p-4 px-9 rounded-lg shadow-md">
-        {/* عنوان خبر */}
+        {/* عنوان  */}
         {item.title && item.url ? (
           <h3 className="font-bold mb-2">
             <a
@@ -21,7 +21,7 @@ const CardView: React.FC<{ data: DataItem[] }> = memo(({ data }) => (
           item.title && <h3 className="font-bold">{item.title}</h3>
         )}
 
-        {/* لید خبر */}
+        {/* خلاصه  */}
         {item.lead && (
           <div className="mb-2 text-sm">
             <span className="text-gray-500">خلاصه:</span>
@@ -33,7 +33,7 @@ const CardView: React.FC<{ data: DataItem[] }> = memo(({ data }) => (
           </div>
         )}
 
-        {/* content */}
+        {/* محتوا */}
         {item.content && (
           <div className="line-clamp-2 text-sm mb-2">
             <span className="flex flex-col gap-4 text-gray-500">محتوا:</span>
